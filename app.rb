@@ -92,5 +92,8 @@ post '/details/:post_id' do
 	# получаем переменную из post-запроса
 	content = params[:content]
 
-	erb "You typed comment #{content} for post with id #{post_id}"
+	#сохранение данных в БД
+	@db.execute 'insert into Comments (content, created_date, post_id) values (?, datetime(), ?)', [content, post_id]
+
+	redirect to ('/details/'+ post_id)
 end
