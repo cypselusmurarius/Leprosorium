@@ -51,5 +51,6 @@ post '/new' do
 	#добавление(сохранение данных) в таблицу Posts нового сообщения и дату его создания
 	@db.execute 'insert into Posts (content, created_date) values (?, datetime())', [content]
 
-	erb "You are typed #{content}"
+	#перенаправление на главную страницу
+	redirect to '/'
 end
