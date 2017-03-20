@@ -9,7 +9,15 @@
 <body>
     <h2>Add New Post</h2>
     <form action="/new" method="POST">
+
         <textarea name="content" class="form-control" rows="6" placeholder="Type post text here"></textarea>
+        <br />
+
+        <div class="form-group">
+            <h2>Input username</h2>
+            <input name="username" type="text" class="form-control" id="exampleInputEmail1" placeholder="username">
+        </div>
+
         <br />
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

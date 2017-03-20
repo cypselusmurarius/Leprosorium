@@ -19,6 +19,7 @@ configure do
 	(
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		created_date DATE,
+		username TEXT,
 		content TEXT
 	)'
 
@@ -47,8 +48,9 @@ end
 # обработчик post-запроса (браузер отправляет данные на сервер)
 post '/new' do
 
-	# получаем переменную из post-запроса
+	# получаем переменные из post-запроса
 	content = params[:content]
+	name = params[:username]
 
 	# обработчик ошибки (пустое сообщение от пользователя)
 	if content.length <= 0
@@ -57,7 +59,7 @@ post '/new' do
 	end
 
 	# добавление(сохранение данных) в таблицу Posts нового сообщения и дату его создания
-	@db.execute 'insert into Posts (content, created_date) values (?, datetime())', [content]
+	@db.execute 'insert into Posts (content, created_date, username) values (?, datetime(), ?)', [content, name]
 
 	# перенаправление на главную страницу
 	redirect to '/'
@@ -94,6 +96,11 @@ post '/details/:post_id' do
 
 	# получаем переменную из post-запроса
 	content = params[:content]
+
+	if content.length <= 0
+		@error = 'Type comment text'
+		return redirect to ('/details/'+ post_id)
+	end
 
 	#сохранение данных в БД
 	@db.execute 'insert into Comments (content, created_date, post_id) values (?, datetime(), ?)', [content, post_id]
