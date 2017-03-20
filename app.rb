@@ -24,7 +24,7 @@ configure do
 end
 
 get '/' do
-	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"
+	erb :index
 end
 
 #обработчик get-запроса (браузер получает страницу с сервера)
@@ -44,7 +44,7 @@ post '/new' do
 		return erb :new
 	end
 
-	#добавление в таблицу Posts нового сообщения и дату его создания
+	#добавление(сохранение данных) в таблицу Posts нового сообщения и дату его создания
 	@db.execute 'insert into Posts (content, created_date) values (?, datetime())', [content]
 
 	erb "You are typed #{content}"
