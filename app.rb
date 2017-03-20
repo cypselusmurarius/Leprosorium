@@ -27,17 +27,25 @@ get '/' do
 	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"
 end
 
+#обработчик get-запроса (браузер получает страницу с сервера)
+
 get '/new' do
 	erb :new
 end
 
+#обработчик post-запроса (браузер отправляет данные на сервер)
+
 post '/new' do
 	content = params[:content]
 
+	#обработчик ошибки (пустое сообщение от пользователя)
 	if content.length <= 0
 		@error = 'Type post text'
 		return erb :new
 	end
+
+	#добавление в таблицу Posts нового сообщения и дату его создания
+	@db.execute 'insert into Posts (content, created_date) values (?, datetime())', [content]
 
 	erb "You are typed #{content}"
 end
